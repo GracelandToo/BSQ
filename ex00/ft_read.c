@@ -3,29 +3,48 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-int main()
+int ft_read_header(char *argv)
+{
+    int file_id; // file descriptor
+    char *header; // buffer to store data
+	char *buffer;
+    int n; // number of bytes read
+    int size = 5; // initial size of buffer
+	int i;
+
+	i = 0;
+    file_id = open(argv, O_RDONLY);
+    header = malloc(size); // allocate memory for buffer
+    while ((n = read(file_id, &header[i], 1)) > 0) // read one byte at a time until end of file
+    {
+        i++; // increment index
+        if (i == size) // check if buffer is full
+        {
+            size *= 2; // double the size of buffer
+			buffer = header;
+            header = malloc(size); // resize the allocated memory
+			header = buffer;
+        }
+    }
+	write(1, header, i); // write to standard output
+    free(header); // free allocated memory
+    close(file_id); // close file
+    return 0;
+}
+
+
+int ft_read_map(char *argv)
 {
     int file_id; // file descriptor
     char *map; // buffer to store data
 	char *buffer;
     int n; // number of bytes read
     int size = 5; // initial size of buffer
+	int i;
 
-    file_id = open("example_file", O_RDONLY); // open file for reading
-    if (file_id == -1) // check for errors
-    {
-        write(2, "open", 4);
-        return 1;
-    }
-
+	i = 0;
+    file_id = open(argv, O_RDONLY);
     map = malloc(size); // allocate memory for buffer
-    if (map == NULL) // check for errors
-    {
-        write(2, "malloc", 4);
-        return 1;
-    }
-
-    int i = 0; // index of buffer
     while ((n = read(file_id, &map[i], 1)) > 0) // read one byte at a time until end of file
     {
         i++; // increment index
@@ -35,22 +54,10 @@ int main()
 			buffer = map;
             map = malloc(size); // resize the allocated memory
 			map = buffer;
-			//free(buffer);
-            if (map == NULL) // check for errors
-            {
-        		write(2, "realloc", 6);
-                return 1;
-            }
         }
     }
-
-    if (n == -1) // check for errors
-    {
-        perror("read");
-        return 1;
-    }
-
-    write(1, map, i); // write to standard output
+	while (i != '\n')
+		write(1, map, i); // write to standard output
 
     free(map); // free allocated memory
 

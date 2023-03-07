@@ -1,3 +1,4 @@
+/*
 int i = ;
 int j = 1;
 while (map[i] < '\n')
@@ -13,3 +14,4 @@ while (map < ' \0')
 	if map[i] == '\n'
 		j++;
 }
+*/

@@ -3,17 +3,20 @@
 
 
 int	ft_file_read(char *txt);
+int ft_read_header(char *argv);
 
 int	main(int argc, char *argv[])
 {
 	char	map_param[4];
 	char	map[999];
+	int i;
 
-	if (argc < 2 || argc > 3)
+	i = 1;
+	if (argc >= 2)
 	{
-		write(2, "Error\n", 6);
-		return (0);
+		while (i < argc)
+		{
+			ft_read_header(argv[i++]);
+		}
 	}
-	ft_file_read(argv[1]);
-
 }
