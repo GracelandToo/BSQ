@@ -17,6 +17,8 @@ int ft_read_header(char *argv)
     header = malloc(size); // allocate memory for buffer
     while ((n = read(file_id, &header[i], 1)) > 0) // read one byte at a time until end of file
     {
+		if (header[i] == '\n')
+			break ;
         i++; // increment index
         if (i == size) // check if buffer is full
         {
